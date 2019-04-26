@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+    <form action="{% url 'reports:submit_expense' %}" method="post">
+        {% csrf_token %}
+        <label for="expName">Name of expense (Netflix, Hulu, etc.): </label>
+        <input type="text" name="expenseName" id="expName"><br>
+        <label for"expAmt">Amount: </label>
+        <input type="number" name="expenseAmount" id="expAmt" min=1 step="any"><br>
+        <label for="expCat">Expense category: </label>
+        <select name="expenseCategory" id="expCat">
+            {% for cat in new_expense_list %}
+                <option value="{{ cat.id }}">{{ cat.name }}</option>
+            {% endfor %}
+        </select><br>
+        <label for="expDate">Date paid: </label>
+        <input type="date" name="expenseDate" id="expDate"><br>
+        <input type="submit" value="Submit">
+    </form>
+{% endblock %}

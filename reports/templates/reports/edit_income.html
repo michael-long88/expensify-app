@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+    <form action="{% url 'reports:submit_edited_income' %}" method="post">
+        {% csrf_token %}
+        <label for="incName">Name of income (Paycheck, Disablity, Stocks, etc.): </label>
+        <input type="text" name="incomeName" id="incName" value="{{ income.name }}"><br>
+        <label for"incAmt">Amount: </label>
+        <input type="number" name="incomeAmount" id="incAmt" min=1 step="any" value="{{ income.amount }}"><br>
+        <input type="hidden" name="incomeID" value="{{ income.id }}">
+        <label for="incDate">Date paid: </label>
+        <input type="date" name="incomeDate" id="incDate"value="{{ income.date_paid|date:'Y-m-d' }}" pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))" required><br>
+        <input type="submit" value="Submit">
+    </form>
+{% endblock %}

@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container-fluid">
+        <h3>Expenses</h3>
+    {% if money_list.0 %}
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table table-bordered" id="expenseTable">
+                    <tr>
+                        <th>Date paid</th>
+                        <th>Name</th>
+                        <th>Amount</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                {% for expense in money_list.0 %}
+                    <tr>
+                        <td>{{ expense.date_paid|date:"m-d" }}</td>
+                        <td>{{ expense.name }}</td>
+                        <td>${{ expense.amount }}</td>
+                        <td><a href="{% url 'reports:edit_expense' expense.id %}"><i class='fas fa-pencil-alt' style='text-align:right'></i></a></td>
+                        <td><a href="{% url 'reports:delete_expense' expense.id %}"><i class='fas fa-minus-circle' style='color:red; text-align:right'></i></a></td>
+                    <tr>
+                {% endfor %}
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                <a href="{% url 'reports:add_expense' %}" class="btn btn-info" role="button">Add New Expense</a>
+                <button class="btn btn-info" type="button" id="cat_breakdown_button">Category Breakdown</button>
+            </div>
+        </div>
+
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+            <span class="close">&times;</span>
+            <img class="modal-content" id="img01">
+            <div id="caption"></div>
+        </div>
+
+    {% else %}
+        <p>
+            It looks like you haven't added anything yet. Add one? <br>
+            <a href="{% url 'reports:add_expense' %}">Add Expense</a> <br>
+        </p>
+    {% endif %}
+
+    </div><br><br>
+
+    <div class="container-fluid">
+        <h3>Income</h3>
+    {% if money_list.1 %}
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table table-bordered" id="expenseTable">
+                    <tr>
+                        <th>Date entered</th>
+                        <th>Name</th>
+                        <th>Amount</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                {% for income in money_list.1 %}
+                    <tr>
+                        <td>{{ income.date_paid|date:"m-d" }}</td>
+                        <td>{{ income.name }}</td>
+                        <td>${{ income.amount }}</td>
+                        <td><a href="{% url 'reports:edit_income' income.id %}"><i class='fas fa-pencil-alt' style='text-align:right'></i></a></td>
+                        <td><a href="{% url 'reports:delete_income' income.id %}"><i class='fas fa-minus-circle' style='color:red; text-align:right'></i></a></td>
+                    <tr>
+                {% endfor %}
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                <a href="{% url 'reports:add_income' %}" class="btn btn-info" role="button">Add New Income</a>
+            </div>
+        </div>
+
+    {% else %}
+        <p>
+            It looks like you haven't added anything yet. Add one? <br>
+            <a href="{% url 'reports:add_income' %}">Add Income</a> <br>
+        </p>
+    {% endif %}
+
+    </div>
+
+    {% if money_list.2 %}
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2">
+                    <br><h4>Net</h4>
+                    <p id="netAmt">{{ money_list.2 }}</p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+<div class="container-fluid">
+    <br><a href="{% url 'reports:add_category' %}" class="btn btn-info" role="button">Add new category</a>
+</div>
+{% endblock %}

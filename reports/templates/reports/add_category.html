@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+    <form action="{% url 'reports:submit_new_category' %}" method="post">
+        {% csrf_token %}
+        <label for="catName">Name of Category (Entertainment, Gas, Food, etc.): </label>
+        <input type="text" name="categoryName" id="catName" required><br>
+        <input type="submit" value="Submit">
+    </form>
+
+{% endblock %}

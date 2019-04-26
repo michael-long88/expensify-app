@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+    <form action="{% url 'reports:submit_edited_expense' %}" method="post">
+        {% csrf_token %}
+        <label for="expName">Name of expense (Netflix, Hulu, etc.): </label>
+        <input type="text" name="expenseName" id="expName" value="{{ expense_list.1.name }}" required><br>
+        <label for="expAmt">Amount: </label>
+        <input type="number" name="expenseAmount" id="expAmt" min=1 step="any" value="{{ expense_list.1.amount }}" required><br>
+        <label for="expCat">Expense category: </label>
+        <select name="expenseCategory" id="expCat" required>
+            {% for cat in expense_list.0 %}
+                <option value="{{ cat.id }}">{{ cat.name }}</option>
+            {% endfor %}
+        </select><br>
+        <input type="hidden" name="expenseID" value="{{ expense_list.1.id }}">
+        <label for="expDate">Date paid (YYYY-MM-DD): </label>
+        <input type="date" name="expenseDate" id="expDate" value="{{ expense_list.1.date_paid|date:'Y-m-d' }}" pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))" required><br>
+        <input type="submit" value="Submit">
+    </form>
+{% endblock %}

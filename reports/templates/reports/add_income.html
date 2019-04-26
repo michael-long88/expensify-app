@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+    <form action="{% url 'reports:submit_income' %}" method="post">
+        {% csrf_token %}
+        <label for="incName">Name of income (Paycheck, Disablity, Stocks, etc.): </label>
+        <input type="text" name="incomeName" id="incName" required><br>
+        <label for="incAmt">Amount: </label>
+        <input type="number" name="incomeAmount" id="incAmt" min=1 step="any" required><br>
+        <label for="incDate">Date paid: </label>
+        <input type="date" name="incomeDate" id="incDate" required><br>
+        <input type="submit" value="Submit">
+    </form>
+{% endblock %}
